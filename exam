@@ -1,0 +1,40 @@
+using System;
+using System.Security.Cryptography;
+using System.Text;
+
+class Program
+{
+    // Функція для хешування повідомлення алгоритмом SHA-256
+    public static string Sha256Hash(string message)
+    {
+        // Створення об'єкта SHA-256
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            // Перетворення рядка на масив байтів
+            byte[] bytes = Encoding.UTF8.GetBytes(message);
+            
+            // Обчислення хеш-значення
+            byte[] hashBytes = sha256.ComputeHash(bytes);
+            
+            // Перетворення хешу в шістнадцятковий формат
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in hashBytes)
+            {
+                sb.Append(b.ToString("x2"));
+            }
+
+            return sb.ToString();
+        }
+    }
+
+    static void Main()
+    {
+        // Введення повідомлення
+        Console.Write("Введіть повідомлення для хешування: ");
+        string message = Console.ReadLine();
+        
+        // Обчислення та виведення геш-значення
+        string hashedMessage = Sha256Hash(message);
+        Console.WriteLine("Геш повідомлення (SHA-256): " + hashedMessage);
+    }
+}
